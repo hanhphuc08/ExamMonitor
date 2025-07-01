@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exam Area Form</title>
+</head>
+<body>
+<h1>Exam Area Form</h1>
+<form th:action="@{/examareas/save}" th:object="${examarea}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    <label>Name:</label>
+    <input type="text" th:field="*{name}" required /> <br/>
+    <label>Floors:</label>
+    <div th:each="floor, iterStat : *{floors}">
+        <input type="text" th:field="*{floors[__${iterStat.index}__].name}" placeholder="Floor Name" /> <br/>
+    </div>
+    <button type="submit">Save</button>
+</form>
+<a href="/examareas">Back to List</a>
+</body>
+</html> 

@@ -1,0 +1,40 @@
+package com.example.exammonitor.controller;
+
+import com.example.exammonitor.model.ExamArea;
+
+import com.example.exammonitor.repository.ExamAreaRepository;
+import com.example.exammonitor.service.ExamAreaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+@Controller
+@RequestMapping("/examareas")
+public class ExamAreaController {
+    @Autowired
+    private ExamAreaService examAreaService;
+    @GetMapping
+    public String list(Model model) {
+        model.addAttribute("examareas", examAreaService.getAllExamAreas());
+        return "examareas/list";
+    }
+
+    @GetMapping("/new")
+    public String form(Model model) {
+        model.addAttribute("examarea", new ExamArea());
+        return "examareas/form";
+    }
+
+    @PostMapping("/save")
+    public String save(@ModelAttribute ExamArea examarea) {
+        examAreaService.saveExamArea(examarea);
+        return "redirect:/examareas";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable String id) {
+        examAreaService.deleteExamAreaById(id);
+        return "redirect:/examareas";
+    }
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exam Areas List</title>
+</head>
+<body>
+<h1>Exam Areas</h1>
+<a href="/examareas/new">Add New Exam Area</a>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Floors</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Thymeleaf: lặp qua examareas -->
+    <tr th:each="examarea : ${examareas}">
+        <td th:text="${examarea.id}"></td>
+        <td th:text="${examarea.name}"></td>
+        <td>
+            <ul>
+                <li th:each="floor : ${examarea.floors}" th:text="${floor != null ? floor.name : ''}"></li>
+            </ul>
+        </td>
+        <td>
+            <a th:href="@{'/examareas/delete/' + ${examarea.id}}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html> 
