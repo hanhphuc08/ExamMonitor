@@ -27,15 +27,23 @@ public class StudentController {
         return "students/form";
     }
 
+    @GetMapping("/edit/{studentId}")
+    public String edit(@PathVariable String studentId, Model model) {
+        Student student = studentService.getStudentById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student not found with studentId: " + studentId));
+        model.addAttribute("student", student);
+        return "students/form";
+    }
+
     @PostMapping("/save")
     public String save(@ModelAttribute Student student) {
         studentService.saveStudent(student);
         return "redirect:/students";
     }
 
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable String id) {
-        studentService.deleteStudentById(id);
+    @GetMapping("/delete/{studentId}")
+    public String delete(@PathVariable String studentId) {
+        studentService.deleteStudentById(studentId);
         return "redirect:/students";
     }
 }

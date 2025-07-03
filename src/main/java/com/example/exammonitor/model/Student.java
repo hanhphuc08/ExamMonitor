@@ -10,7 +10,6 @@ import java.util.List;
 @Document("students")
 public class Student {
     @Id
-    private String id;
     private String studentId;
     private StudentInfo currentInfo;
     private List<StudentInfo> infoHistory;
@@ -18,14 +17,6 @@ public class Student {
     private StudentStatus status;
     private List<ChangedInfo> changedInfos;
     private List<ParticipatedExam> participatedExams;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getStudentId() {
         return studentId;
@@ -82,6 +73,5 @@ public class Student {
     public void setParticipatedExams(List<ParticipatedExam> participatedExams) {
         this.participatedExams = participatedExams;
     }
-// Getters & Setters
 }
 

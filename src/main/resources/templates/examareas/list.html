@@ -13,6 +13,7 @@
         <th>ID</th>
         <th>Name</th>
         <th>Floors</th>
+        <th>Total Rooms</th>
         <th>Actions</th>
     </tr>
     </thead>
@@ -23,10 +24,19 @@
         <td th:text="${examarea.name}"></td>
         <td>
             <ul>
-                <li th:each="floor : ${examarea.floors}" th:text="${floor != null ? floor.name : ''}"></li>
+                <li th:each="floor : ${examarea.floors}" th:if="${floor != null}">
+                    Floor <span th:text="${floor.floorNumber}"></span>
+                    (<span th:text="${floor.rooms != null ? floor.rooms.size() : 0}"></span> rooms)
+                </li>
             </ul>
         </td>
         <td>
+            <span th:with="totalRooms=${examarea.floors != null ? 
+                #aggregates.sum(examarea.floors.![rooms != null ? rooms.size() : 0]) : 0}" 
+                th:text="${totalRooms}">0</span>
+        </td>
+        <td>
+            <a th:href="@{'/examareas/edit/' + ${examarea.id}}">Edit</a> |
             <a th:href="@{'/examareas/delete/' + ${examarea.id}}">Delete</a>
         </td>
     </tr>

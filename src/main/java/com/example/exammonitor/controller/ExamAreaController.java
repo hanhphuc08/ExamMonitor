@@ -26,6 +26,14 @@ public class ExamAreaController {
         return "examareas/form";
     }
 
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable String id, Model model) {
+        ExamArea examarea = examAreaService.getExamAreaById(id)
+                .orElseThrow(() -> new RuntimeException("ExamArea not found with id: " + id));
+        model.addAttribute("examarea", examarea);
+        return "examareas/form";
+    }
+
     @PostMapping("/save")
     public String save(@ModelAttribute ExamArea examarea) {
         examAreaService.saveExamArea(examarea);

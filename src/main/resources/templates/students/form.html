@@ -5,18 +5,46 @@
     <title>Student Form</title>
 </head>
 <body>
-<h1>Student Form</h1>
+<h1 th:text="${student.studentId != null ? 'Edit Student' : 'Add New Student'}">Student Form</h1>
 <form th:action="@{/students/save}" th:object="${student}" method="post">
-    <input type="hidden" th:field="*{id}" />
+    <h3>Basic Information</h3>
     <label>Student ID:</label>
-    <input type="text" th:field="*{studentId}" required /> <br/>
+    <input type="text" th:field="*{studentId}" th:readonly="${student.studentId != null}" required /> <br/>
+    
+    <label>Status:</label>
+    <select th:field="*{status}" required>
+        <option value="">Select Status</option>
+        <option value="active">Active</option>
+        <option value="suspended">Suspended</option>
+        <option value="expelled">Expelled</option>
+    </select> <br/>
+    
+    <h3>Current Information</h3>
     <label>Full Name:</label>
     <input type="text" th:field="*{currentInfo.fullName}" required /> <br/>
+    
     <label>Email:</label>
     <input type="email" th:field="*{currentInfo.email}" required /> <br/>
-    <label>Status:</label>
-    <input type="text" th:field="*{status}" required /> <br/>
-    <button type="submit">Save</button>
+    
+    <label>Phone:</label>
+    <input type="text" th:field="*{currentInfo.phone}" /> <br/>
+    
+    <label>Image URL:</label>
+    <input type="text" th:field="*{currentInfo.image}" /> <br/>
+    
+    <label>Address:</label>
+    <textarea th:field="*{currentInfo.address}" rows="3"></textarea> <br/>
+    
+    <label>Major:</label>
+    <input type="text" th:field="*{currentInfo.major}" /> <br/>
+    
+    <label>Classroom:</label>
+    <input type="text" th:field="*{currentInfo.classroom}" /> <br/>
+    
+    <label>Birthday:</label>
+    <input type="date" th:field="*{currentInfo.birthday}" /> <br/>
+    
+    <button type="submit" th:text="${student.studentId != null ? 'Update' : 'Save'}">Save</button>
 </form>
 <a href="/students">Back to List</a>
 </body>

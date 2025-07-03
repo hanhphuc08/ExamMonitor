@@ -28,6 +28,14 @@ public class UserController {
         return "users/form";
     }
 
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable String id, Model model) {
+        User user = userService.getUserById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+        model.addAttribute("user", user);
+        return "users/form";
+    }
+
     @PostMapping("/save")
     public String save(@ModelAttribute User user) {
         userService.saveUser(user);

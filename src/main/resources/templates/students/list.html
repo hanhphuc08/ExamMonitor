@@ -10,10 +10,12 @@
 <table border="1">
     <thead>
     <tr>
-        <th>ID</th>
         <th>Student ID</th>
         <th>Full Name</th>
         <th>Email</th>
+        <th>Phone</th>
+        <th>Major</th>
+        <th>Classroom</th>
         <th>Status</th>
         <th>Actions</th>
     </tr>
@@ -21,13 +23,16 @@
     <tbody>
     <!-- Thymeleaf: lặp qua students -->
     <tr th:each="student : ${students}">
-        <td th:text="${student.id}"></td>
         <td th:text="${student.studentId}"></td>
         <td th:text="${student.currentInfo != null ? student.currentInfo.fullName : ''}"></td>
         <td th:text="${student.currentInfo != null ? student.currentInfo.email : ''}"></td>
+        <td th:text="${student.currentInfo != null ? student.currentInfo.phone : ''}"></td>
+        <td th:text="${student.currentInfo != null ? student.currentInfo.major : ''}"></td>
+        <td th:text="${student.currentInfo != null ? student.currentInfo.classroom : ''}"></td>
         <td th:text="${student.status}"></td>
         <td>
-            <a th:href="@{'/students/delete/' + ${student.id}}">Delete</a>
+            <a th:href="@{'/students/edit/' + ${student.studentId}}">Edit</a> |
+            <a th:href="@{'/students/delete/' + ${student.studentId}}">Delete</a>
         </td>
     </tr>
     </tbody>
