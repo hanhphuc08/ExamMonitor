@@ -12,6 +12,7 @@
     <tr>
         <th>ID</th>
         <th>Name</th>
+        <th>Description</th>
         <th>Floors</th>
         <th>Total Rooms</th>
         <th>Actions</th>
@@ -22,6 +23,7 @@
     <tr th:each="examarea : ${examareas}">
         <td th:text="${examarea.id}"></td>
         <td th:text="${examarea.name}"></td>
+        <td th:text="${examarea.description}"></td>
         <td>
             <ul>
                 <li th:each="floor : ${examarea.floors}" th:if="${floor != null}">

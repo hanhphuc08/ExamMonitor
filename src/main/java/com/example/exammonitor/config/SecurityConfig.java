@@ -2,7 +2,6 @@ package com.example.exammonitor.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,14 +21,24 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/students/**", "/users/**", "/examareas/**").hasRole("ADMIN")
-                        .requestMatchers("/api/**").hasAnyRole("ADMIN", "INVIGILATOR")
-                        .anyRequest().authenticated()
+                .requestMatchers("/users", "/users/**").hasRole("ADMIN")
+                .requestMatchers("/students", "/students/**", "/examareas", "/examareas/**").hasAnyRole("ADMIN", "INVIGILATOR")
+                .requestMatchers("/api/**").hasAnyRole("ADMIN", "INVIGILATOR")
+                .anyRequest().authenticated()
                 )
-                .csrf(csrf -> csrf.disable())
-                .httpBasic(Customizer.withDefaults());
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/")
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/login?logout")
+                        .permitAll()
+                )
+                .csrf(csrf -> csrf.disable());
         return http.build();
     }
+    
     @Bean
     public InMemoryUserDetailsManager users(PasswordEncoder passwordEncoder) {
         var admin = org.springframework.security.core.userdetails.User.builder()

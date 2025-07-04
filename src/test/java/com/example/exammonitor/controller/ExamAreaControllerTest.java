@@ -1,0 +1,113 @@
+package com.example.exammonitor.controller;
+
+import com.example.exammonitor.model.ExamArea;
+import com.example.exammonitor.service.ExamAreaService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.util.Arrays;
+import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+class ExamAreaControllerTest {
+    @Autowired
+    private MockMvc mockMvc;
+
+    // Nếu muốn mock service, giữ lại đoạn này, nếu không thì xóa để test integration thật
+    @MockBean
+    private ExamAreaService examAreaService;
+
+    private ExamArea area;
+
+    @BeforeEach
+    void setUp() {
+        area = new ExamArea();
+        area.setId("a1");
+        area.setName("Khu A");
+        // Không có setDescription
+    }
+
+    // --- Security Test ---
+    @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    void testListExamAreasAllowedForAdmin() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/examareas"))
+               .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser(username = "gv", roles = {"INVIGILATOR"})
+    void testListExamAreasForbiddenForInvigilator() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/examareas"))
+               .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void testListExamAreasUnauthorizedForAnonymous() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/examareas"))
+               .andExpect(status().isUnauthorized());
+    }
+
+    // --- Integration Test ---
+    @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    void testListExamAreasIntegration() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/examareas"))
+               .andExpect(status().isOk())
+               .andExpect(view().name("examareas/list"))
+               .andExpect(model().attributeExists("examareas"));
+    }
+
+    // --- Các test logic cũ (nếu muốn giữ lại mock service thì bỏ comment @MockBean ở trên) ---
+    @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    void testShowAddForm() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/examareas/new"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("examareas/form"))
+                .andExpect(model().attributeExists("examarea"));
+    }
+
+    @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    void testShowEditForm() throws Exception {
+        when(examAreaService.getExamAreaById("a1")).thenReturn(Optional.of(area));
+        mockMvc.perform(MockMvcRequestBuilders.get("/examareas/edit/a1"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("examareas/form"))
+                .andExpect(model().attributeExists("examarea"));
+    }
+
+    @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    void testSaveExamArea() throws Exception {
+        when(examAreaService.saveExamArea(any(ExamArea.class))).thenReturn(area);
+        mockMvc.perform(MockMvcRequestBuilders.post("/examareas/save")
+                        .with(csrf())
+                        .flashAttr("examarea", area))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/examareas"));
+    }
+
+    @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    void testDeleteExamArea() throws Exception {
+        doNothing().when(examAreaService).deleteExamAreaById("a1");
+        mockMvc.perform(MockMvcRequestBuilders.get("/examareas/delete/a1"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/examareas"));
+    }
+} 

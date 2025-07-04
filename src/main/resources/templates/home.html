@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Exam Monitor - Home</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .nav { background: #f0f0f0; padding: 10px; margin-bottom: 20px; }
+        .nav a { margin-right: 20px; text-decoration: none; color: #333; }
+        .nav a:hover { color: #007bff; }
+        .welcome { font-size: 24px; margin-bottom: 20px; }
+        .logout { float: right; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}" href="/users">Users</a>
+        <a href="/students">Students</a>
+        <a href="/examareas">Exam Areas</a>
+        <a href="/logout" class="logout">Logout</a>
+    </div>
+    
+    <div class="welcome">
+        <h1>Welcome to Exam Monitor System</h1>
+        <p>Manage users, students, and exam areas</p>
+    </div>
+    
+    <div>
+        <h2>Quick Actions:</h2>
+        <ul>
+            <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}"><a href="/users">Manage Users</a> - Add, edit, delete users</li>
+            <li><a href="/students">Manage Students</a> - Add, edit, delete students</li>
+            <li><a href="/examareas">Manage Exam Areas</a> - Add, edit, delete exam areas</li>
+        </ul>
+    </div>
+</body>
+</html> 
