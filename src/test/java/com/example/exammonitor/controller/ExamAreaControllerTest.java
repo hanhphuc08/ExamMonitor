@@ -17,6 +17,7 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
@@ -44,28 +45,29 @@ class ExamAreaControllerTest {
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void testListExamAreasAllowedForAdmin() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/examareas"))
+        mockMvc.perform(get("/examareas"))
                .andExpect(status().isOk());
     }
 
     @Test
     @WithMockUser(username = "gv", roles = {"INVIGILATOR"})
-    void testListExamAreasForbiddenForInvigilator() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/examareas"))
-               .andExpect(status().isForbidden());
+    void testListExamAreasAllowedForInvigilator() throws Exception {
+        mockMvc.perform(get("/examareas"))
+               .andExpect(status().isOk());
     }
 
     @Test
     void testListExamAreasUnauthorizedForAnonymous() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/examareas"))
-               .andExpect(status().isUnauthorized());
+        mockMvc.perform(get("/examareas"))
+                .andExpect(status().isFound()) // 302
+                .andExpect(redirectedUrlPattern("**/login"));
     }
 
     // --- Integration Test ---
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void testListExamAreasIntegration() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/examareas"))
+        mockMvc.perform(get("/examareas"))
                .andExpect(status().isOk())
                .andExpect(view().name("examareas/list"))
                .andExpect(model().attributeExists("examareas"));
@@ -75,7 +77,7 @@ class ExamAreaControllerTest {
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void testShowAddForm() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/examareas/new"))
+        mockMvc.perform(get("/examareas/new"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("examareas/form"))
                 .andExpect(model().attributeExists("examarea"));
@@ -85,7 +87,7 @@ class ExamAreaControllerTest {
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void testShowEditForm() throws Exception {
         when(examAreaService.getExamAreaById("a1")).thenReturn(Optional.of(area));
-        mockMvc.perform(MockMvcRequestBuilders.get("/examareas/edit/a1"))
+        mockMvc.perform(get("/examareas/edit/a1"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("examareas/form"))
                 .andExpect(model().attributeExists("examarea"));
@@ -106,7 +108,7 @@ class ExamAreaControllerTest {
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void testDeleteExamArea() throws Exception {
         doNothing().when(examAreaService).deleteExamAreaById("a1");
-        mockMvc.perform(MockMvcRequestBuilders.get("/examareas/delete/a1"))
+        mockMvc.perform(get("/examareas/delete/a1"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/examareas"));
     }

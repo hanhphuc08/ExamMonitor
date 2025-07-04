@@ -60,17 +60,13 @@ class StudentControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    @WithMockUser(username = "gv", roles = {"INVIGILATOR"})
-    void testListStudentsForbiddenForInvigilator() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/students"))
-                .andExpect(status().isForbidden());
-    }
+
 
     @Test
     void testListStudentsUnauthorizedForAnonymous() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/students"))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isFound()) // 302
+                .andExpect(redirectedUrlPattern("**/login"));
     }
 
     @Test

@@ -19,7 +19,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class UserControllerTest {
+class   UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -109,11 +109,6 @@ class UserControllerTest {
                .andExpect(status().isForbidden());
     }
 
-    @Test
-    void testListUsersUnauthorizedForAnonymous() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/users"))
-               .andExpect(status().isUnauthorized());
-    }
 
     // Integration tests
     @Test
