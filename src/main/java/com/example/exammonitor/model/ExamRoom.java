@@ -6,12 +6,7 @@ public class ExamRoom {
     private String roomId;
     private int capacity;
     private List<ExamSlot> slots;
-
-<<<<<<< HEAD
-=======
     public ExamRoom() {}
-
->>>>>>> QA_branch
     public String getRoomId() {
         return roomId;
     }
@@ -29,10 +24,7 @@ public class ExamRoom {
     }
 
     public List<ExamSlot> getSlots() {
-<<<<<<< HEAD
-=======
         if (slots == null) slots = new java.util.ArrayList<>();
->>>>>>> QA_branch
         return slots;
     }
 

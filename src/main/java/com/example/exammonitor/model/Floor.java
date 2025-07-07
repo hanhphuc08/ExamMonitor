@@ -6,11 +6,9 @@ public class Floor {
     private int floorNumber;
     private List<ExamRoom> rooms;
 
-<<<<<<< HEAD
-=======
     public Floor() {}
 
->>>>>>> QA_branch
+
     public int getFloorNumber() {
         return floorNumber;
     }
@@ -20,10 +18,7 @@ public class Floor {
     }
 
     public List<ExamRoom> getRooms() {
-<<<<<<< HEAD
-=======
         if (rooms == null) rooms = new java.util.ArrayList<>();
->>>>>>> QA_branch
         return rooms;
     }
 
