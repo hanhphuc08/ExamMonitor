@@ -16,14 +16,20 @@ public class StudentController {
     private StudentService studentService;
 
     @GetMapping
-
-    public String list(@RequestParam(value = "keyword", required = false) String keyword, Model model) {
+    public String list(@RequestParam(value = "keyword", required = false) String keyword,
+                      @RequestParam(value = "searchField", required = false) String searchField,
+                      Model model) {
         if (keyword != null && !keyword.trim().isEmpty()) {
-            model.addAttribute("students", studentService.searchStudents(keyword.trim()));
+            if (searchField == null || searchField.equals("studentId")) {
+                model.addAttribute("students", studentService.searchByStudentId(keyword.trim()));
+            } else {
+                model.addAttribute("students", studentService.searchByFullName(keyword.trim()));
+            }
         } else {
             model.addAttribute("students", studentService.getAllStudents());
         }
         model.addAttribute("keyword", keyword);
+        model.addAttribute("searchField", searchField);
         return "students/list";
     }
 

@@ -78,4 +78,34 @@ class ExamAreaServiceImplTest {
         ExamArea updated = examAreaService.saveExamArea(area1);
         assertEquals("Khu A Updated", updated.getName());
     }
+
+    @Test
+    void testSearchById() {
+        when(examAreaRepository.findByIdRegex("a1")).thenReturn(Arrays.asList(area1));
+        List<ExamArea> result = examAreaService.searchById("a1");
+        assertEquals(1, result.size());
+        assertEquals("a1", result.get(0).getId());
+    }
+
+    @Test
+    void testSearchByName() {
+        when(examAreaRepository.findByNameRegex("Khu A")).thenReturn(Arrays.asList(area1));
+        List<ExamArea> result = examAreaService.searchByName("Khu A");
+        assertEquals(1, result.size());
+        assertEquals("Khu A", result.get(0).getName());
+    }
+
+    @Test
+    void testSearchByIdWithName() {
+        when(examAreaRepository.findByIdRegex("Khu A")).thenReturn(Arrays.asList());
+        List<ExamArea> result = examAreaService.searchById("Khu A");
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void testSearchByNameWithId() {
+        when(examAreaRepository.findByNameRegex("a1")).thenReturn(Arrays.asList());
+        List<ExamArea> result = examAreaService.searchByName("a1");
+        assertTrue(result.isEmpty());
+    }
 } 

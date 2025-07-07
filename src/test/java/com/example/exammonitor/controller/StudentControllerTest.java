@@ -114,4 +114,48 @@ class StudentControllerTest {
                .andExpect(view().name("students/list"))
                .andExpect(model().attributeExists("students"));
     }
+
+    @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    void testSearchByStudentId() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/students")
+                .param("searchField", "studentId")
+                .param("keyword", "s1"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("students"))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("s1")));
+    }
+
+    @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    void testSearchByFullNameNoAccent() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/students")
+                .param("searchField", "fullName")
+                .param("keyword", "Nguyen Van A"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("students"))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Nguyen Van A")));
+    }
+
+    @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    void testSearchByFullNameWithAccent() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/students")
+                .param("searchField", "fullName")
+                .param("keyword", "Nguyễn Văn A"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("students"))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Nguyen Van A")));
+    }
+
+    @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    void testSearchByStudentIdWithName() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/students")
+                .param("searchField", "studentId")
+                .param("keyword", "Nguyen Van A"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("students"))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Nguyen Van A")));
+    }
 } 

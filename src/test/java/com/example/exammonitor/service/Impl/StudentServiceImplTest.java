@@ -96,4 +96,28 @@ class StudentServiceImplTest {
         Student updated = studentService.saveStudent(student1);
         assertEquals("Nguyen Van A Updated", updated.getCurrentInfo().getFullName());
     }
+
+    @Test
+    void testSearchByStudentId() {
+        when(studentRepository.findByStudentIdRegex("s1")).thenReturn(Arrays.asList(student1));
+        List<Student> result = studentService.searchByStudentId("s1");
+        assertEquals(1, result.size());
+        assertEquals("s1", result.get(0).getStudentId());
+    }
+
+
+
+    @Test
+    void testSearchByStudentIdWithName() {
+        when(studentRepository.findByStudentIdRegex("Nguyen Van A")).thenReturn(Arrays.asList());
+        List<Student> result = studentService.searchByStudentId("Nguyen Van A");
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void testSearchByFullNameWithStudentId() {
+        when(studentRepository.findByFullNameRegex("s1")).thenReturn(Arrays.asList());
+        List<Student> result = studentService.searchByFullName("s1");
+        assertTrue(result.isEmpty());
+    }
 } 

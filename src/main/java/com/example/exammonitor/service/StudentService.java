@@ -13,4 +13,6 @@ public interface StudentService {
     Student saveStudent(Student student);
     void deleteStudentById(String id);
     List<Student> searchStudents(String keyword);
+    List<Student> searchByStudentId(String studentId);
+    List<Student> searchByFullName(String fullName);
 }

@@ -32,4 +32,19 @@ public class ExamAreaServiceImpl implements ExamAreaService {
     public void deleteExamAreaById(String id) {
         examAreaRepository.deleteById(id);
     }
+
+    @Override
+    public List<ExamArea> searchExamAreas(String keyword) {
+        return examAreaRepository.searchByIdOrName(keyword);
+    }
+
+    @Override
+    public List<ExamArea> searchById(String id) {
+        return examAreaRepository.findByIdRegex(id);
+    }
+
+    @Override
+    public List<ExamArea> searchByName(String name) {
+        return examAreaRepository.findByNameRegex(name);
+    }
 }

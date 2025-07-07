@@ -10,4 +10,7 @@ public interface ExamAreaService {
     Optional<ExamArea> getExamAreaById(String id);
     ExamArea saveExamArea(ExamArea ExamArea);
     void deleteExamAreaById(String id);
+    java.util.List<ExamArea> searchExamAreas(String keyword);
+    List<ExamArea> searchById(String id);
+    List<ExamArea> searchByName(String name);
 }

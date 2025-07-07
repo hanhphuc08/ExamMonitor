@@ -186,7 +186,7 @@
             <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}" href="/users" class="nav-link">👥 Quản lý người dùng</a>
             <a href="/students" class="nav-link">🎓 Quản lý sinh viên</a>
             <a href="/examareas" class="nav-link">🏢 Quản lý khu vực thi</a>
-            <a href="/logout" class="logout-btn">🚪 Đăng xuất</a>
+            <a href="/logout" class="nav-link logout-btn">🚪 Đăng xuất</a>
         </div>
     </div>
 </nav>
@@ -195,11 +195,22 @@
         <h1 class="page-title">🏢 Danh sách khu vực thi</h1>
         <a href="/examareas/new" class="add-btn">➕ Thêm khu vực thi</a>
     </div>
+
+    <form th:action="@{/examareas}" method="get" style="margin-bottom: 2rem; display: flex; gap: 1rem;">
+        <select name="searchField" style="padding: 0.75rem 1rem; border-radius: 8px; border: 2px solid #e5e7eb;">
+            <option value="id" th:selected="${searchField == null || searchField == 'id'}">ID</option>
+            <option value="name" th:selected="${searchField == 'name'}">Tên khu vực</option>
+        </select>
+        <input type="text" name="keyword" th:value="${keyword}" placeholder="Tìm theo mã hoặc tên khu vực..." style="flex:1; padding: 0.75rem 1rem; border-radius: 8px; border: 2px solid #e5e7eb;">
+        <button type="submit" class="add-btn" style="padding: 0.75rem 1.5rem;">🔍 Tìm kiếm</button>
+    </form>
+
     <div class="table-container">
         <div th:if="${#lists.isEmpty(examareas)}" class="empty-state">
             <div class="empty-icon">🏢</div>
-            <h3>Chưa có khu vực thi nào</h3>
-            <p>Bắt đầu bằng cách thêm khu vực thi đầu tiên vào hệ thống</p>
+            <h3 th:if="${keyword != null && keyword != ''}">Không có khu vực thi nào khớp với nội dung tìm kiếm</h3>
+            <h3 th:if="${keyword == null || keyword == ''}">Chưa có khu vực thi nào</h3>
+            <p th:if="${keyword == null || keyword == ''}">Bắt đầu bằng cách thêm khu vực thi đầu tiên vào hệ thống</p>
         </div>
         <table th:if="${!#lists.isEmpty(examareas)}" class="data-table">
             <thead>

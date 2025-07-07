@@ -277,6 +277,10 @@
         </div>
 
         <form th:action="@{/students}" method="get" style="margin-bottom: 2rem; display: flex; gap: 1rem;">
+            <select name="searchField" style="padding: 0.75rem 1rem; border-radius: 8px; border: 2px solid #e5e7eb;">
+                <option value="studentId" th:selected="${searchField == null || searchField == 'studentId'}">Mã sinh viên</option>
+                <option value="fullName" th:selected="${searchField == 'fullName'}">Họ tên</option>
+            </select>
             <input type="text" name="keyword" th:value="${keyword}" placeholder="Tìm theo mã số hoặc tên..." style="flex:1; padding: 0.75rem 1rem; border-radius: 8px; border: 2px solid #e5e7eb;">
             <button type="submit" class="add-btn" style="padding: 0.75rem 1.5rem;">🔍 Tìm kiếm</button>
         </form>
@@ -284,8 +288,9 @@
         <div class="table-container">
             <div th:if="${#lists.isEmpty(students)}" class="empty-state">
                 <div class="empty-icon">📚</div>
-                <h3>Chưa có sinh viên nào</h3>
-                <p>Bắt đầu bằng cách thêm sinh viên đầu tiên vào hệ thống</p>
+                <h3 th:if="${keyword != null && keyword != ''}">Không có sinh viên nào khớp với nội dung tìm kiếm</h3>
+                <h3 th:if="${keyword == null || keyword == ''}">Chưa có sinh viên nào</h3>
+                <p th:if="${keyword == null || keyword == ''}">Bắt đầu bằng cách thêm sinh viên đầu tiên vào hệ thống</p>
             </div>
 
             <table th:if="${!#lists.isEmpty(students)}" class="data-table">

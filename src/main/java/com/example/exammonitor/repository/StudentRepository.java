@@ -21,5 +21,11 @@ public interface StudentRepository extends MongoRepository<Student, String> {
             " ]" +
             "}")
     List<Student> searchByStudentIdOrFullNameOrNoAccent(String keyword);
+
+    @Query("{ 'studentId': { $regex: ?0, $options: 'i' } }")
+    List<Student> findByStudentIdRegex(String studentId);
+
+    @Query("{ 'currentInfo.fullNameNoAccent': { $regex: ?0, $options: 'i' } }")
+    List<Student> findByFullNameRegex(String fullNameNoAccent);
 }
 

@@ -15,8 +15,20 @@ public class ExamAreaController {
     @Autowired
     private ExamAreaService examAreaService;
     @GetMapping
-    public String list(Model model) {
-        model.addAttribute("examareas", examAreaService.getAllExamAreas());
+    public String list(@RequestParam(value = "keyword", required = false) String keyword,
+                      @RequestParam(value = "searchField", required = false) String searchField,
+                      Model model) {
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            if (searchField == null || searchField.equals("id")) {
+                model.addAttribute("examareas", examAreaService.searchById(keyword.trim()));
+            } else {
+                model.addAttribute("examareas", examAreaService.searchByName(keyword.trim()));
+            }
+        } else {
+            model.addAttribute("examareas", examAreaService.getAllExamAreas());
+        }
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("searchField", searchField);
         return "examareas/list";
     }
 

@@ -45,4 +45,14 @@ public class StudentServiceImpl implements StudentService {
     public List<Student> searchStudents(String keyword) {
         return studentRepository.searchByStudentIdOrFullNameOrNoAccent(com.example.exammonitor.util.VietnameseAccentRemover.removeVietnameseAccent(keyword));
     }
+
+    @Override
+    public List<Student> searchByStudentId(String studentId) {
+        return studentRepository.findByStudentIdRegex(studentId);
+    }
+
+    @Override
+    public List<Student> searchByFullName(String fullName) {
+        return studentRepository.findByFullNameRegex(com.example.exammonitor.util.VietnameseAccentRemover.removeVietnameseAccent(fullName));
+    }
 }

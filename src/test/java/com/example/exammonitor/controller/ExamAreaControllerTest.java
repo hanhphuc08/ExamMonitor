@@ -112,4 +112,52 @@ class ExamAreaControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/examareas"));
     }
+
+    @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    void testSearchById() throws Exception {
+        when(examAreaService.searchById("A")).thenReturn(Arrays.asList(area));
+        mockMvc.perform(get("/examareas")
+                .param("searchField", "id")
+                .param("keyword", "A"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("examareas"))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("A")));
+    }
+
+    @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    void testSearchByNameNoAccent() throws Exception {
+        when(examAreaService.searchByName("Khu A")).thenReturn(Arrays.asList(area));
+        mockMvc.perform(get("/examareas")
+                .param("searchField", "name")
+                .param("keyword", "Khu A"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("examareas"))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Khu A")));
+    }
+
+    @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    void testSearchByNameWithAccent() throws Exception {
+        when(examAreaService.searchByName("Khu Á")).thenReturn(Arrays.asList(area));
+        mockMvc.perform(get("/examareas")
+                .param("searchField", "name")
+                .param("keyword", "Khu Á"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("examareas"))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Khu A")));
+    }
+
+    @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    void testSearchByIdWithName() throws Exception {
+        when(examAreaService.searchById("Khu A")).thenReturn(Arrays.asList());
+        mockMvc.perform(get("/examareas")
+                .param("searchField", "id")
+                .param("keyword", "Khu A"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("examareas"))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Không có khu vực thi nào khớp với nội dung tìm kiếm")));
+    }
 } 
