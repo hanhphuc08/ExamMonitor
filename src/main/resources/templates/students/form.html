@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -47,5 +48,384 @@
     <button type="submit" th:text="${student.studentId != null ? 'Update' : 'Save'}">Save</button>
 </form>
 <a href="/students">Back to List</a>
+=======
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form sinh viên - Exam Monitor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .main-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title {
+            color: #1e40af;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .back-btn {
+            background: #64748b;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-btn:hover {
+            background: #475569;
+            transform: translateY(-2px);
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            color: #1e40af;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"], 
+        input[type="email"], 
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f9fafb;
+        }
+
+        input[type="text"]:focus, 
+        input[type="email"]:focus, 
+        input[type="date"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        input[readonly] {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-cancel {
+            background: #64748b;
+            color: white;
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-cancel:hover {
+            background: #475569;
+            transform: translateY(-2px);
+        }
+
+        .required {
+            color: #ef4444;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .page-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand">📚 Exam Monitor</a>
+            <div class="nav-menu">
+                <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}" href="/users" class="nav-link">👥 Quản lý người dùng</a>
+                <a href="/students" class="nav-link">🎓 Quản lý sinh viên</a>
+                <a href="/examareas" class="nav-link">🏢 Quản lý khu vực thi</a>
+                <a href="/logout" class="logout-btn">🚪 Đăng xuất</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <div class="page-header">
+            <h1 class="page-title">
+                <span th:text="${student.studentId != null ? '✏️ Chỉnh sửa sinh viên' : '➕ Thêm sinh viên mới'}"></span>
+            </h1>
+            <a href="/students" class="back-btn">
+                ← Quay lại danh sách
+            </a>
+        </div>
+
+        <div class="form-container">
+            <form th:action="@{/students/save}" th:object="${student}" method="post">
+                <div class="form-section">
+                    <h2 class="section-title">📋 Thông tin cơ bản</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="studentId">Mã sinh viên <span class="required">*</span></label>
+                            <input type="text" id="studentId" th:field="*{studentId}" 
+                                   th:readonly="${student.studentId != null}" required 
+                                   placeholder="Nhập mã sinh viên" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="status">Trạng thái <span class="required">*</span></label>
+                            <select id="status" th:field="*{status}" required>
+                                <option value="">Chọn trạng thái</option>
+                                <option value="active">Hoạt động</option>
+                                <option value="suspended">Tạm đình chỉ</option>
+                                <option value="expelled">Đình chỉ</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="section-title">👤 Thông tin cá nhân</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="fullName">Họ và tên <span class="required">*</span></label>
+                            <input type="text" id="fullName" th:field="*{currentInfo.fullName}" 
+                                   required placeholder="Nhập họ và tên" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email <span class="required">*</span></label>
+                            <input type="email" id="email" th:field="*{currentInfo.email}" 
+                                   required placeholder="Nhập email" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Số điện thoại</label>
+                            <input type="text" id="phone" th:field="*{currentInfo.phone}" 
+                                   placeholder="Nhập số điện thoại" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="birthday">Ngày sinh</label>
+                            <input type="date" id="birthday" th:field="*{currentInfo.birthday}" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="major">Chuyên ngành</label>
+                            <input type="text" id="major" th:field="*{currentInfo.major}" 
+                                   placeholder="Nhập chuyên ngành" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="classroom">Lớp</label>
+                            <input type="text" id="classroom" th:field="*{currentInfo.classroom}" 
+                                   placeholder="Nhập lớp" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="image">URL ảnh đại diện</label>
+                            <input type="text" id="image" th:field="*{currentInfo.image}" 
+                                   placeholder="Nhập URL ảnh đại diện" />
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label for="address">Địa chỉ</label>
+                            <textarea id="address" th:field="*{currentInfo.address}" 
+                                      placeholder="Nhập địa chỉ chi tiết"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <a href="/students" class="btn-cancel">❌ Hủy</a>
+                    <button type="submit" class="btn-save">
+                        <span th:text="${student.studentId != null ? '💾 Cập nhật' : '💾 Lưu'}"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+>>>>>>> QA_branch
 </body>
 </html> 

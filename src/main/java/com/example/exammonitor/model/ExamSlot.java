@@ -12,6 +12,11 @@ public class ExamSlot {
     private List<String> studentId;
     private List<String> invigilatorUserIds;
 
+<<<<<<< HEAD
+=======
+    public ExamSlot() {}
+
+>>>>>>> QA_branch
     public String getShift() {
         return shift;
     }
@@ -45,6 +50,10 @@ public class ExamSlot {
     }
 
     public List<String> getStudentId() {
+<<<<<<< HEAD
+=======
+        if (studentId == null) studentId = new java.util.ArrayList<>();
+>>>>>>> QA_branch
         return studentId;
     }
 
@@ -53,6 +62,10 @@ public class ExamSlot {
     }
 
     public List<String> getInvigilatorUserIds() {
+<<<<<<< HEAD
+=======
+        if (invigilatorUserIds == null) invigilatorUserIds = new java.util.ArrayList<>();
+>>>>>>> QA_branch
         return invigilatorUserIds;
     }
 

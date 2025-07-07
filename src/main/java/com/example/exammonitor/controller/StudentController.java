@@ -16,8 +16,14 @@ public class StudentController {
     private StudentService studentService;
 
     @GetMapping
-    public String list(Model model) {
-        model.addAttribute("students", studentService.getAllStudents());;
+
+    public String list(@RequestParam(value = "keyword", required = false) String keyword, Model model) {
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            model.addAttribute("students", studentService.searchStudents(keyword.trim()));
+        } else {
+            model.addAttribute("students", studentService.getAllStudents());
+        }
+        model.addAttribute("keyword", keyword);
         return "students/list";
     }
 

@@ -7,10 +7,21 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import com.example.exammonitor.service.CustomUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
+
+
+    @Autowired
+    private CustomUserDetailsService userDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -35,26 +46,9 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/login?logout")
                         .permitAll()
                 )
-                .csrf(csrf -> csrf.disable());
+                .csrf(csrf -> csrf.disable())
+                .userDetailsService(userDetailsService);
         return http.build();
     }
-    
-    @Bean
-    public InMemoryUserDetailsManager users(PasswordEncoder passwordEncoder) {
-        var admin = org.springframework.security.core.userdetails.User.builder()
-                .username("admin")
-                .password(passwordEncoder.encode("admin123"))
-                .roles("ADMIN")
-                .build();
-
-        var gv = org.springframework.security.core.userdetails.User.builder()
-                .username("gv")
-                .password(passwordEncoder.encode("gv123"))
-                .roles("INVIGILATOR")
-                .build();
-
-        return new InMemoryUserDetailsManager(admin, gv);
-    }
-
 }
 

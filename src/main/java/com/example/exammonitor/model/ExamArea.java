@@ -15,6 +15,11 @@ public class ExamArea {
     private String description;
     private List<Floor> floors;
 
+<<<<<<< HEAD
+=======
+    public ExamArea() {}
+
+>>>>>>> QA_branch
     public String getId() {
         return id;
     }
@@ -40,6 +45,10 @@ public class ExamArea {
     }
 
     public List<Floor> getFloors() {
+<<<<<<< HEAD
+=======
+        if (floors == null) floors = new java.util.ArrayList<>();
+>>>>>>> QA_branch
         return floors;
     }
 

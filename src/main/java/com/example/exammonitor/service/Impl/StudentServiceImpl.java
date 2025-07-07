@@ -27,11 +27,21 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student saveStudent(Student student) {
+
+        if (student.getCurrentInfo() != null && student.getCurrentInfo().getFullName() != null) {
+            String noAccent = com.example.exammonitor.util.VietnameseAccentRemover.removeVietnameseAccent(student.getCurrentInfo().getFullName());
+            student.getCurrentInfo().setFullNameNoAccent(noAccent);
+        }
         return studentRepository.save(student);
     }
 
     @Override
     public void deleteStudentById(String id) {
         studentRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Student> searchStudents(String keyword) {
+        return studentRepository.searchByStudentIdOrFullNameOrNoAccent(com.example.exammonitor.util.VietnameseAccentRemover.removeVietnameseAccent(keyword));
     }
 }

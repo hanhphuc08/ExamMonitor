@@ -36,6 +36,14 @@ public class ExamAreaController {
 
     @PostMapping("/save")
     public String save(@ModelAttribute ExamArea examarea) {
+
+
+        System.out.println("ExamArea nhận được: " + examarea);
+        if (examarea.getFloors() != null) {
+            for (int i = 0; i < examarea.getFloors().size(); i++) {
+                System.out.println("  Floor " + i + ": " + examarea.getFloors().get(i));
+            }
+        }
         examAreaService.saveExamArea(examarea);
         return "redirect:/examareas";
     }

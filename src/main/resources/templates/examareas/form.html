@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -216,5 +217,704 @@ document.addEventListener('DOMContentLoaded', function() {
     floorIndex = floors.length;
 });
 </script>
+=======
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form khu vực thi - Exam Monitor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title {
+            color: #1e40af;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .back-btn {
+            background: #64748b;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-btn:hover {
+            background: #475569;
+            transform: translateY(-2px);
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            color: #1e40af;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"], 
+        input[type="number"],
+        input[type="date"],
+        input[type="time"],
+        textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f9fafb;
+        }
+
+        input[type="text"]:focus, 
+        input[type="number"]:focus,
+        input[type="date"]:focus,
+        input[type="time"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        input[readonly] {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .floor-section {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            margin: 1rem 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .floor-section:hover {
+            border-color: #2563eb;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+        }
+
+        .room-section {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            overflow: hidden;
+        }
+
+        .slot-section {
+            background: #f9fafb;
+            border: 1px solid #f3f4f6;
+            border-radius: 6px;
+            margin: 0.25rem 0;
+            padding: 1rem;
+        }
+
+        .dropdown {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .dropdown:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+        }
+
+        .dropdown-content {
+            display: none;
+            padding: 1.5rem;
+            background: white;
+        }
+
+        .dropdown-content.show {
+            display: block;
+        }
+
+        .floor-header {
+            font-weight: bold;
+            color: white;
+        }
+
+        .room-header {
+            font-weight: bold;
+            color: #1e40af;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .add-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .remove-btn {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+
+        .remove-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-cancel {
+            background: #64748b;
+            color: white;
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-cancel:hover {
+            background: #475569;
+            transform: translateY(-2px);
+        }
+
+        .required {
+            color: #ef4444;
+        }
+
+        .section-info {
+            background: #dbeafe;
+            border: 1px solid #93c5fd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            color: #1e40af;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .page-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand">📚 Exam Monitor</a>
+            <div class="nav-menu">
+                <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}" href="/users" class="nav-link">👥 Quản lý người dùng</a>
+                <a href="/students" class="nav-link">🎓 Quản lý sinh viên</a>
+                <a href="/examareas" class="nav-link">🏢 Quản lý khu vực thi</a>
+                <a href="/logout" class="logout-btn">🚪 Đăng xuất</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <div class="page-header">
+            <h1 class="page-title">
+                <span th:text="${examarea.id != null ? '✏️ Chỉnh sửa khu vực thi' : '➕ Thêm khu vực thi mới'}"></span>
+            </h1>
+            <a href="/examareas" class="back-btn">← Quay lại danh sách</a>
+        </div>
+
+        <div class="form-container">
+            <form th:action="@{/examareas/save}" th:object="${examarea}" method="post" id="examAreaForm">
+                <div class="form-section">
+                    <h2 class="section-title">📋 Thông tin cơ bản</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="id">ID khu vực <span class="required">*</span></label>
+                            <input type="text" id="id" th:field="*{id}" 
+                                   th:readonly="${examarea.id != null}" required 
+                                   placeholder="Nhập ID khu vực thi" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="name">Tên khu vực <span class="required">*</span></label>
+                            <input type="text" id="name" th:field="*{name}" 
+                                   required placeholder="Nhập tên khu vực thi" />
+                        </div>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="description">Mô tả</label>
+                        <textarea id="description" th:field="*{description}" 
+                                  placeholder="Nhập mô tả chi tiết về khu vực thi"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="section-title">🏢 Tầng và phòng thi</h2>
+                    <div class="section-info">
+                        💡 Bạn có thể thêm nhiều tầng, mỗi tầng có thể có nhiều phòng thi, và mỗi phòng có thể có nhiều ca thi.
+                    </div>
+                    
+                    <div id="floorsContainer">
+                        <div th:each="floor, iterStat : *{floors}" class="floor-section">
+                            <div class="dropdown" onclick="toggleDropdown(this)">
+                                <span class="floor-header">
+                                    🏢 Tầng <span th:text="${iterStat.index + 1}"></span> 
+                                    (Số tầng: <span th:text="${floor.floorNumber}"></span>)
+                                </span>
+                                <span>▼</span>
+                            </div>
+                            <div class="dropdown-content">
+                                <div class="form-group">
+                                    <label>Số tầng:</label>
+                                    <input type="number" th:field="*{floors[__${iterStat.index}__].floorNumber}" 
+                                           placeholder="Nhập số tầng" /> 
+                                    <button type="button" class="btn remove-btn" onclick="removeFloor(this)">
+                                        🗑️ Xóa tầng
+                                    </button>
+                                </div>
+                                
+                                <h5 style="color: #1e40af; margin: 1rem 0;">🚪 Phòng thi trong tầng này:</h5>
+                                <div class="rooms-container">
+                                    <div th:each="room, roomIterStat : *{floors[__${iterStat.index}__].rooms}" class="room-section">
+                                        <div class="dropdown" onclick="toggleDropdown(this)" style="background: #3b82f6;">
+                                            <span class="room-header">
+                                                🚪 Phòng: <span th:text="${room.roomId}"></span> 
+                                                (Sức chứa: <span th:text="${room.capacity}"></span>)
+                                            </span>
+                                            <span>▼</span>
+                                        </div>
+                                        <div class="dropdown-content">
+                                            <div class="form-grid">
+                                                <div class="form-group">
+                                                    <label>ID phòng:</label>
+                                                    <input type="text" th:field="*{floors[__${iterStat.index}__].rooms[__${roomIterStat.index}__].roomId}" 
+                                                           placeholder="Nhập ID phòng" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Sức chứa:</label>
+                                                    <input type="number" th:field="*{floors[__${iterStat.index}__].rooms[__${roomIterStat.index}__].capacity}" 
+                                                           placeholder="Nhập sức chứa" />
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn remove-btn" onclick="removeRoom(this)">
+                                                🗑️ Xóa phòng
+                                            </button>
+                                            
+                                            <h6 style="color: #1e40af; margin: 1rem 0;">📝 Ca thi:</h6>
+                                            <div class="slots-container">
+                                                <div th:each="slot, slotIterStat : *{floors[__${iterStat.index}__].rooms[__${roomIterStat.index}__].slots}" class="slot-section">
+                                                    <div class="form-grid">
+                                                        <div class="form-group">
+                                                            <label>Ca thi:</label>
+                                                            <input type="text" th:field="*{floors[__${iterStat.index}__].rooms[__${roomIterStat.index}__].slots[__${slotIterStat.index}__].shift}" 
+                                                                   placeholder="Nhập ca thi" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Ngày thi:</label>
+                                                            <input type="date" th:field="*{floors[__${iterStat.index}__].rooms[__${roomIterStat.index}__].slots[__${slotIterStat.index}__].examDate}" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Giờ bắt đầu:</label>
+                                                            <input type="time" th:field="*{floors[__${iterStat.index}__].rooms[__${roomIterStat.index}__].slots[__${slotIterStat.index}__].startTime}" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>ID bài thi:</label>
+                                                            <input type="text" th:field="*{floors[__${iterStat.index}__].rooms[__${roomIterStat.index}__].slots[__${slotIterStat.index}__].examId}" 
+                                                                   placeholder="Nhập ID bài thi" />
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" class="btn remove-btn" onclick="removeSlot(this)">
+                                                        🗑️ Xóa ca thi
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn add-btn" onclick="addSlot(this)">
+                                                ➕ Thêm ca thi
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn add-btn" onclick="addRoom(this)">
+                                    ➕ Thêm phòng
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="button" class="btn add-btn" onclick="addFloor()">
+                        ➕ Thêm tầng
+                    </button>
+                </div>
+
+                <div class="form-actions">
+                    <a href="/examareas" class="btn-cancel">❌ Hủy</a>
+                    <button type="submit" class="btn-save">
+                        <span th:text="${examarea.id != null ? '💾 Cập nhật' : '💾 Lưu'}"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+    let floorIndex = 0;
+    let roomIndexes = {};
+    let slotIndexes = {};
+
+    function toggleDropdown(element) {
+        const content = element.nextElementSibling;
+        content.classList.toggle('show');
+    }
+
+    function addFloor() {
+        const container = document.getElementById('floorsContainer');
+        const floorDiv = document.createElement('div');
+        floorDiv.className = 'floor-section';
+        floorDiv.innerHTML = `
+            <div class="dropdown" onclick="toggleDropdown(this)">
+                <span class="floor-header">🏢 Tầng ${container.children.length + 1}</span>
+                <span>▼</span>
+            </div>
+            <div class="dropdown-content">
+                <div class="form-group">
+                    <label>Số tầng:</label>
+                    <input type="number" name="floors[${floorIndex}].floorNumber" placeholder="Nhập số tầng" /> 
+                    <button type="button" class="btn remove-btn" onclick="removeFloor(this)">
+                        🗑️ Xóa tầng
+                    </button>
+                </div>
+                
+                <h5 style="color: #1e40af; margin: 1rem 0;">🚪 Phòng thi trong tầng này:</h5>
+                <div class="rooms-container"></div>
+                <button type="button" class="btn add-btn" onclick="addRoom(this)">
+                    ➕ Thêm phòng
+                </button>
+            </div>
+        `;
+        container.appendChild(floorDiv);
+        roomIndexes[floorIndex] = 0;
+        floorIndex++;
+    }
+
+    function removeFloor(button) {
+        button.closest('.floor-section').remove();
+        updateFloorNumbers();
+    }
+
+    function addRoom(button) {
+        const floorSection = button.closest('.floor-section');
+        const roomsContainer = floorSection.querySelector('.rooms-container');
+        const floorIndex = Array.from(document.querySelectorAll('.floor-section')).indexOf(floorSection);
+        
+        if (!roomIndexes[floorIndex]) {
+            roomIndexes[floorIndex] = 0;
+        }
+        
+        const roomDiv = document.createElement('div');
+        roomDiv.className = 'room-section';
+        roomDiv.innerHTML = `
+            <div class="dropdown" onclick="toggleDropdown(this)" style="background: #3b82f6;">
+                <span class="room-header">🚪 Phòng ${roomIndexes[floorIndex] + 1}</span>
+                <span>▼</span>
+            </div>
+            <div class="dropdown-content">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>ID phòng:</label>
+                        <input type="text" name="floors[${floorIndex}].rooms[${roomIndexes[floorIndex]}].roomId" placeholder="Nhập ID phòng" />
+                    </div>
+                    <div class="form-group">
+                        <label>Sức chứa:</label>
+                        <input type="number" name="floors[${floorIndex}].rooms[${roomIndexes[floorIndex]}].capacity" placeholder="Nhập sức chứa" />
+                    </div>
+                </div>
+                <button type="button" class="btn remove-btn" onclick="removeRoom(this)">
+                    🗑️ Xóa phòng
+                </button>
+                
+                <h6 style="color: #1e40af; margin: 1rem 0;">📝 Ca thi:</h6>
+                <div class="slots-container"></div>
+                <button type="button" class="btn add-btn" onclick="addSlot(this)">
+                    ➕ Thêm ca thi
+                </button>
+            </div>
+        `;
+        roomsContainer.appendChild(roomDiv);
+        roomIndexes[floorIndex]++;
+    }
+
+    function removeRoom(button) {
+        button.closest('.room-section').remove();
+    }
+
+    function addSlot(button) {
+        const roomSection = button.closest('.room-section');
+        const slotsContainer = roomSection.querySelector('.slots-container');
+        const floorSection = roomSection.closest('.floor-section');
+        const floorIndex = Array.from(document.querySelectorAll('.floor-section')).indexOf(floorSection);
+        const roomIndex = Array.from(floorSection.querySelectorAll('.room-section')).indexOf(roomSection);
+        
+        const key = `${floorIndex}-${roomIndex}`;
+        if (!slotIndexes[key]) {
+            slotIndexes[key] = 0;
+        }
+        
+        const slotDiv = document.createElement('div');
+        slotDiv.className = 'slot-section';
+        slotDiv.innerHTML = `
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Ca thi:</label>
+                    <input type="text" name="floors[${floorIndex}].rooms[${roomIndex}].slots[${slotIndexes[key]}].shift" placeholder="Nhập ca thi" />
+                </div>
+                <div class="form-group">
+                    <label>Ngày thi:</label>
+                    <input type="date" name="floors[${floorIndex}].rooms[${roomIndex}].slots[${slotIndexes[key]}].examDate" />
+                </div>
+                <div class="form-group">
+                    <label>Giờ bắt đầu:</label>
+                    <input type="time" name="floors[${floorIndex}].rooms[${roomIndex}].slots[${slotIndexes[key]}].startTime" />
+                </div>
+                <div class="form-group">
+                    <label>ID bài thi:</label>
+                    <input type="text" name="floors[${floorIndex}].rooms[${roomIndex}].slots[${slotIndexes[key]}].examId" placeholder="Nhập ID bài thi" />
+                </div>
+            </div>
+            <button type="button" class="btn remove-btn" onclick="removeSlot(this)">
+                🗑️ Xóa ca thi
+            </button>
+        `;
+        slotsContainer.appendChild(slotDiv);
+        slotIndexes[key]++;
+    }
+
+    function removeSlot(button) {
+        button.closest('.slot-section').remove();
+    }
+
+    function updateFloorNumbers() {
+        const floors = document.querySelectorAll('.floor-section');
+        floors.forEach((floor, index) => {
+            const title = floor.querySelector('.floor-header');
+            title.innerHTML = `🏢 Tầng ${index + 1}`;
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const floors = document.querySelectorAll('.floor-section');
+        floors.forEach((floor, floorIndex) => {
+            const rooms = floor.querySelectorAll('.room-section');
+            roomIndexes[floorIndex] = rooms.length;
+            
+            rooms.forEach((room, roomIndex) => {
+                const slots = room.querySelectorAll('.slot-section');
+                const key = `${floorIndex}-${roomIndex}`;
+                slotIndexes[key] = slots.length;
+            });
+        });
+        floorIndex = floors.length;
+    });
+    </script>
+>>>>>>> QA_branch
 </body>
 </html> 

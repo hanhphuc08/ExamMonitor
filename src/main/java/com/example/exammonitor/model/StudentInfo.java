@@ -4,6 +4,10 @@ import java.time.LocalDate;
 
 public class StudentInfo {
     private String fullName;
+<<<<<<< HEAD
+=======
+    private String fullNameNoAccent;
+>>>>>>> QA_branch
     private String email;
     private String phone;
     private String image;
@@ -18,6 +22,18 @@ public class StudentInfo {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+<<<<<<< HEAD
+=======
+        this.fullNameNoAccent = com.example.exammonitor.util.VietnameseAccentRemover.removeVietnameseAccent(fullName);
+    }
+
+    public String getFullNameNoAccent() {
+        return fullNameNoAccent;
+    }
+
+    public void setFullNameNoAccent(String fullNameNoAccent) {
+        this.fullNameNoAccent = fullNameNoAccent;
+>>>>>>> QA_branch
     }
 
     public String getEmail() {

@@ -12,4 +12,5 @@ public interface StudentService {
     Optional<Student> getStudentById(String id);
     Student saveStudent(Student student);
     void deleteStudentById(String id);
+    List<Student> searchStudents(String keyword);
 }
