@@ -1,42 +1,4 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Users List</title>
-</head>
-<body>
-<h1>Users</h1>
-<a href="/users/new">Add New User</a>
-<table border="1">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Username</th>
-        <th>Full Name</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Created At</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <!-- Thymeleaf: lặp qua users -->
-    <tr th:each="user : ${users}">
-        <td th:text="${user.id}"></td>
-        <td th:text="${user.username}"></td>
-        <td th:text="${user.fullName}"></td>
-        <td th:text="${user.email}"></td>
-        <td th:text="${user.role}"></td>
-        <td th:text="${user.createdAt}"></td>
-        <td>
-            <a th:href="@{'/users/edit/' + ${user.id}}">Edit</a> |
-            <a th:href="@{'/users/delete/' + ${user.id}}">Delete</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
-=======
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -359,6 +321,5 @@
             </table>
         </div>
     </div>
->>>>>>> QA_branch
 </body>
 </html> 

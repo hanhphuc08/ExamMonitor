@@ -1,51 +1,4 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Exam Areas List</title>
-</head>
-<body>
-<h1>Exam Areas</h1>
-<a href="/examareas/new">Add New Exam Area</a>
-<table border="1">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Floors</th>
-        <th>Total Rooms</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <!-- Thymeleaf: lặp qua examareas -->
-    <tr th:each="examarea : ${examareas}">
-        <td th:text="${examarea.id}"></td>
-        <td th:text="${examarea.name}"></td>
-        <td th:text="${examarea.description}"></td>
-        <td>
-            <ul>
-                <li th:each="floor : ${examarea.floors}" th:if="${floor != null}">
-                    Floor <span th:text="${floor.floorNumber}"></span>
-                    (<span th:text="${floor.rooms != null ? floor.rooms.size() : 0}"></span> rooms)
-                </li>
-            </ul>
-        </td>
-        <td>
-            <span th:with="totalRooms=${examarea.floors != null ? 
-                #aggregates.sum(examarea.floors.![rooms != null ? rooms.size() : 0]) : 0}" 
-                th:text="${totalRooms}">0</span>
-        </td>
-        <td>
-            <a th:href="@{'/examareas/edit/' + ${examarea.id}}">Edit</a> |
-            <a th:href="@{'/examareas/delete/' + ${examarea.id}}">Delete</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
-=======
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -287,6 +240,6 @@
         </table>
     </div>
 </div>
->>>>>>> QA_branch
+
 </body>
 </html> 

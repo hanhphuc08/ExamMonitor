@@ -1,33 +1,4 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>User Form</title>
-</head>
-<body>
-<h1 th:text="${user.id != null ? 'Edit User' : 'Add New User'}">User Form</h1>
-<form th:action="@{/users/save}" th:object="${user}" method="post">
-    <label>ID:</label>
-    <input type="text" th:field="*{id}" th:readonly="${user.id != null}" required /> <br/>
-    <label>Username:</label>
-    <input type="text" th:field="*{username}" required /> <br/>
-    <label>Password:</label>
-    <input type="password" th:field="*{password}" required /> <br/>
-    <label>Full Name:</label>
-    <input type="text" th:field="*{fullName}" required /> <br/>
-    <label>Email:</label>
-    <input type="email" th:field="*{email}" required /> <br/>
-    <label>Role:</label>
-    <select th:field="*{role}" required>
-        <option value="">Select Role</option>
-        <option value="ADMIN">ADMIN</option>
-        <option value="INVIGILATOR">INVIGILATOR</option>
-    </select> <br/>
-    <button type="submit" th:text="${user.id != null ? 'Update' : 'Save'}">Save</button>
-</form>
-<a href="/users">Back to List</a>
-=======
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -320,6 +291,5 @@
             </form>
         </div>
     </div>
->>>>>>> QA_branch
 </body>
 </html> 
